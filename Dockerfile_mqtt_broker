@@ -1,0 +1,10 @@
+FROM ubuntu:latest
+ENV PYTHONUNBUFFERED=1
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install iproute2 net-tools software-properties-common python3 python3-pip nano iputils-ping mosquitto
+RUN sed -i 's/pid_file/#pid_file/' /etc/mosquitto/mosquitto.conf
+RUN echo "listener 7000 192.168.0.2" >> /etc/mosquitto/mosquitto.conf
+RUN echo "listener 7000 192.168.1.2" >> /etc/mosquitto/mosquitto.conf
+RUN echo "listener 7000 192.168.2.2" >> /etc/mosquitto/mosquitto.conf
+RUN echo "listener 7000 192.168.3.2" >> /etc/mosquitto/mosquitto.conf
+RUN echo "allow_anonymous true" >> /etc/mosquitto/mosquitto.conf
+CMD mosquitto -c /etc/mosquitto/mosquitto.conf

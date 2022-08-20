@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  mqtt_broker:
+    container_name: mqtt_broker
+    build:
+      dockerfile: Dockerfile_mqtt_broker
+    networks:
+      management:
+        ipv4_address: 192.168.0.2
+      network_a:
+        ipv4_address: 192.168.1.2
+      network_b:
+        ipv4_address: 192.168.2.2
+      network_c:
+        ipv4_address: 192.168.3.2
+  client_a:
+    container_name: client_a
+    build:
+      dockerfile: Dockerfile_client_a
+    networks:
+      network_a:
+        ipv4_address: 192.168.1.100
+  client_b:
+    container_name: client_b
+    build:
+      dockerfile: Dockerfile_client_b
+    networks:
+      network_b:
+        ipv4_address: 192.168.2.100
+  client_c:
+    container_name: client_c
+    build:
+      dockerfile: Dockerfile_client_c
+    networks:
+      network_c:
+        ipv4_address: 192.168.3.100
+
+networks:
+  management:
+    name: management
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+  network_a:
+    name: network_a
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+  network_b:
+    name: network_b
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.2.0/24
+  network_c:
+    name: network_c
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.3.0/24

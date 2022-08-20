@@ -1,0 +1,7 @@
+FROM ubuntu:latest
+ENV PYTHONUNBUFFERED=1
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install iproute2 net-tools software-properties-common python3 python3-pip nano iputils-ping
+COPY requirements.txt requirements.txt
+RUN python3 -m pip install -r requirements.txt
+COPY start_client.py start_client.py
+CMD python3 -u start_client.py --name client_b --address 192.168.2.2 --port 7000 --delay 1 --subscribe_topics topic_a topic_c --publish_topic topic_b --payload message_b
